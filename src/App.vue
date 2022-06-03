@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div class="modal" v-if="film.length > 0"><li v-for="film in film" :key="film.id"> {{film.title}}</li></div>
     <h1 class="title">Ghibli Movies</h1>
     <div class="flex" v-if="films.length > 0">
       <div class="card" v-for="film in films" :key="film.id">
@@ -17,6 +18,7 @@ export default {
     return {
       api_uri: "https://ghibliapi.herokuapp.com/films",
       films: {},
+      film: []
     };
   },
   methods: {
@@ -26,12 +28,14 @@ export default {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
           this.films = data;
         });
     },
-    showMovie(el) {
-      console.log(el);
+    showMovie(movieId) {
+      this.film = [];
+      let film = this.films.find(movie => movie.id == movieId);
+      this.film.push(film);
+      console.log(this.film[0]);
     }
   },
   beforeMount() {
@@ -49,6 +53,18 @@ export default {
 
 body {
   background: #f5fafb;
+}
+
+.modal {
+  position: fixed;
+  width: 300px;
+  height: fit-content;
+  padding: 50px;
+  background: #ffffff;
+  box-shadow: 5px 5px 100px 10px #00000050;
+  top: 25vh;
+  z-index: 1000;
+  left: calc(50vw - 150px);
 }
 
 .title {

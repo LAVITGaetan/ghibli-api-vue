@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="modal" v-if="film.length > 0"><li v-for="film in film" :key="film.id"> {{film.title}}</li></div>
+    <div class="modal" v-if="film.length > 0"><h3 class="modal-title" v-for="film in film" :key="film.id"> {{film.title}}</h3><div @click="resetMovie" class="modal-close">Fermer</div></div>
     <h1 class="title">Ghibli Movies</h1>
     <div class="flex" v-if="films.length > 0">
       <div class="card" v-for="film in films" :key="film.id">
@@ -36,6 +36,9 @@ export default {
       let film = this.films.find(movie => movie.id == movieId);
       this.film.push(film);
       console.log(this.film[0]);
+    },
+    resetMovie() {
+      this.film = []
     }
   },
   beforeMount() {
@@ -59,12 +62,32 @@ body {
   position: fixed;
   width: 300px;
   height: fit-content;
-  padding: 50px;
+  padding: 25px 25px 10px 25px;
   background: #ffffff;
   box-shadow: 5px 5px 100px 10px #00000050;
   top: 25vh;
   z-index: 1000;
   left: calc(50vw - 150px);
+  border-radius: 5px;
+}
+
+.modal-close {
+  background: #181826;
+  color: #ffffff;
+  font-size: 16px;
+  margin: 50px auto 0 auto;
+  padding: .7em 1.4em;
+  border-radius: 50px;
+  text-align: center;
+  widows: fit-content;
+  cursor : pointer;
+}
+
+.modal-title {
+  font-size: 20px;
+  color: #181826;
+  text-align: center;
+  font-weight: bold;
 }
 
 .title {

@@ -1,4 +1,5 @@
 # ghibli-api-vue
+Decouverte vuejs avec l'api ghibli
 
 ## Project setup
 ```

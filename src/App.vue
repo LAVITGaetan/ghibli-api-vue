@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <h1>Ghibli API</h1>
-    <ul v-if="films.length > 0">
-    <li v-for="film in films" :key="film.id">{{ film.title }}</li>
-  </ul>
-    
+    <h1 class="title">Ghibli Movies</h1>
+    <div class="flex" v-if="films.length > 0">
+      <div class="card" v-for="film in films" :key="film.id">
+        <img class="card-thumbnail" v-bind:src="film.image" v-bind:alt="film.title" />
+        <div class="card-action" @click="showMovie(film.id)">+</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,24 +16,91 @@ export default {
   data() {
     return {
       api_uri: "https://ghibliapi.herokuapp.com/films",
-      films : {}
+      films: {},
     };
   },
-  methods : {
+  methods: {
     fetchApi() {
       fetch(this.api_uri)
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        this.films = data;
-    })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          this.films = data;
+        });
+    },
+    showMovie(el) {
+      console.log(el);
     }
   },
   beforeMount() {
-    this.fetchApi()
-  }
+    this.fetchApi();
+  },
 };
 </script>
 
-<style></style>
+<style>
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f5fafb;
+}
+
+.title {
+  font-size: 30px;
+  color: #181826;
+  text-align: center;
+  padding: 2em 25% 0 25%;
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 2em 10%;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 300px;
+  height: 450px;
+  margin: 50px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.card-action {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 5px 10px 1px #00000020;
+  z-index: 100;
+  width: 150px;
+  height: 64px;
+  background: #13e4e4ea;
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  left: calc(50% - 75px);
+  bottom: -32px;
+}
+
+.card-action:hover {
+  transition: .3s ease;
+  background: #13E4E4;
+}
+
+.card-thumbnail {
+  width: 300px;
+  border-radius: 5px;
+  height: 450px;
+}
+</style>
